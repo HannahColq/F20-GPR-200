@@ -27,6 +27,8 @@
 #include <stdlib.h>
 #include <iostream>
 
+#include "gpro/color.h"
+#include "gpro/vec3.h"
 
 #include "gpro/gpro-math/gproVector.h"
 
@@ -97,16 +99,8 @@ int main(int const argc, char const* const argv[])
 		for (int i = 0; i < image_width; i++)
 		{
 			//Sets red, green and blue values based on the location the pixel is in the image
-			double r = double(i) / (image_width - 1);
-			double g = double(j) / (image_height - 1);
-			double b = 0.25;
-
-			int ir = static_cast<int>(255.999 * r);
-			int ig = static_cast<int>(255.999 * g);
-			int ib = static_cast<int>(255.999 * b);
-
-			//prints rgb values to file
-			file << ir << ' ' << ig << ' ' << ib << "\n";
+			color pixel_color(double(i) / (image_width - 1), double(j) / (image_height - 1), 0.25);
+			write_color(std::cout, pixel_color);
 		}
 	}
 

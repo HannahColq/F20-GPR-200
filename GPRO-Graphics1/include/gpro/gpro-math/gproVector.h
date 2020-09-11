@@ -18,14 +18,15 @@
 	gproVector.h
 	Interface for vectors. Sets an example for C and C++ compatible headers.
 
-	Modified by: ____________
-	Modified because: ____________
+	Modified by: Hannah Colquhoun
+	Modified because: Using code from Peter Shirley's Ray Tracing in One Weekend: https://raytracing.github.io/books/RayTracingInOneWeekend.html
 */
 
+//Courtesy of Daniel Buckstein
 #ifndef _GPRO_VECTOR_H_
 #define _GPRO_VECTOR_H_
 
-
+//Courtesy of Daniel Buckstein
 #ifdef __cplusplus
 // DB: link C++ symbols as if they are C where possible
 extern "C" {
@@ -52,6 +53,7 @@ typedef float const* floatkv;	// generic constant float vector (pointer)
 //		'v' and 'struct...' share the same address
 //	-> this means you can have multiple names for the same stuff!
 
+//Courtesy of Daniel Buckstein
 // vec3
 //	A 3D vector data structure.
 //		member v: array (pointer) version of data
