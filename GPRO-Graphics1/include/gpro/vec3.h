@@ -76,7 +76,6 @@ public:
 //Type aliases for vec3
 using point3 = vec3; //3d point
 using color = vec3;  //rgb
-#endif
 
 //overloading operators for vec3
 inline std::ostream& operator<<(std::ostream& out, const vec3& v)
@@ -132,3 +131,4 @@ inline vec3 unit_vector(vec3 v)
 {
 	return v / v.length();
 }
+#endif

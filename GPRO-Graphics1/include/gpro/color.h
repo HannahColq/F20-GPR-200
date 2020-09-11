@@ -1,6 +1,6 @@
 /*
 	color.h
-	Create color class
+	Create color function to print colors per pixel
 
 	Modified by: Hannah Colquhoun
 	Modified because: Inlcuding code from Peter Shirley's Ray Tracing in One Weekend: https://raytracing.github.io/books/RayTracingInOneWeekend.html

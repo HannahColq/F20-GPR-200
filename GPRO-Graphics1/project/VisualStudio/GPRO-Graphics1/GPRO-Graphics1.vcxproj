@@ -158,9 +158,9 @@
     <ClCompile Include="GPRO-Graphics1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\gpro\color.h" />
     <ClInclude Include="..\..\..\include\gpro\gpro-math\gproVector.h" />
-    <ClInclude Include="color.h" />
-    <ClInclude Include="vec3.h" />
+    <ClInclude Include="..\..\..\include\gpro\vec3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\gpro\gpro-math\_inl\gproVector.inl" />

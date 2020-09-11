@@ -32,11 +32,11 @@
     <ClInclude Include="..\..\..\include\gpro\gpro-math\gproVector.h">
       <Filter>Header Files\gpro\gpro-math</Filter>
     </ClInclude>
-    <ClInclude Include="vec3.h">
-      <Filter>Header Files\gpro\gpro-math</Filter>
+    <ClInclude Include="..\..\..\include\gpro\vec3.h">
+      <Filter>Header Files\gpro</Filter>
     </ClInclude>
-    <ClInclude Include="color.h">
-      <Filter>Header Files\gpro\gpro-math</Filter>
+    <ClInclude Include="..\..\..\include\gpro\color.h">
+      <Filter>Header Files\gpro</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

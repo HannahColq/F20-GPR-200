@@ -30,8 +30,8 @@
 #include "gpro/color.h"
 #include "gpro/vec3.h"
 
-#include "gpro/gpro-math/gproVector.h"
-
+//#include "gpro/gpro-math/gproVector.h"
+/*
 //Courtesy of Daniel Buckstein
 void testVector()
 {
@@ -63,7 +63,7 @@ void testVector()
 #else  // !__cplusplus
 // C file io includes
 #endif // #__cplusplus
-
+*/
 int main(int const argc, char const* const argv[])
 {
 	/*
@@ -80,7 +80,7 @@ int main(int const argc, char const* const argv[])
 #endif // #__cplusplus
 */
 	//Open file for writing
-	std::ofstream file("firstimage.ppm");
+	//std::ofstream file("firstimage.ppm");
 	
 	//The following lines (86 to 113) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
 	//Altered to print directly to file instead of cout. Removed all instances of auto.
@@ -90,7 +90,7 @@ int main(int const argc, char const* const argv[])
 	const int image_height = 256;
 
 	//Render Image
-	file << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
 	//Sets color of each pixel from left to right, top to bottom based on location
 	for (int j = image_height - 1; j >= 0; j--)
@@ -107,5 +107,5 @@ int main(int const argc, char const* const argv[])
 	std::cerr << "\nDone.\n";
 
 	//printf("\n\n");
-	system("pause");
+	//system("pause");
 }
