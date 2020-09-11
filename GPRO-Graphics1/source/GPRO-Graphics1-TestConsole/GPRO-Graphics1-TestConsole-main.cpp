@@ -29,6 +29,7 @@
 
 #include "gpro/color.h"
 #include "gpro/vec3.h"
+#include "gpro/ray.h"
 
 //#include "gpro/gpro-math/gproVector.h"
 /*
@@ -64,30 +65,35 @@ void testVector()
 // C file io includes
 #endif // #__cplusplus
 */
-int main(int const argc, char const* const argv[])
-{
-	/*
-	testVector();
 
-#ifdef __cplusplus
-	//opening and writing to a file in C++
-	std::ofstream file("firstimage.ppm");	//Open file for writing
-	std::string test = "hello";			//create a string
-	file << test << std::endl;			//output string (and newline)
-	file.close();						//done, close file
-#else  // !__cplusplus
-	// C file io includes
-#endif // #__cplusplus
-*/
-	//Open file for writing
-	//std::ofstream file("firstimage.ppm");
+//The following lines (71 to 77) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+//Removed all instances of auto.
+color ray_color(const ray& r)
+{
+	vec3 unit_direction = unit_vector(r.direction());
+	double t = 0.5 * (unit_direction.y() + 1.0);
+	//return color based on ray location?
+	return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(1.0, 0.7, 0.5);
+}
+
+int main(int const argc, char const* const argv[])
+{	
+	//The following lines (84 to 116) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+	//Removed all instances of auto.
 	
-	//The following lines (86 to 113) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
-	//Altered to print directly to file instead of cout. Removed all instances of auto.
-	
-	//Set Image width and height
-	const int image_width = 256;
-	const int image_height = 256;
+	//Set Image width and height using aspect ratio
+	const double aspect_ratio = 16.0 / 9.0;
+	const int image_width = 400;
+	const int image_height = static_cast<int>(image_width / aspect_ratio);
+
+	//Set up camera view
+	double viewport_height = 2.0;
+	double viewport_width = aspect_ratio * viewport_height;
+	double focal_length = 1.0;
+	point3 origin = point3(0, 0, 0);
+	vec3 horizontal = vec3(viewport_width, 0, 0);
+	vec3 vertical = vec3(0, viewport_height, 0);
+	vec3 lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
 
 	//Render Image
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -98,8 +104,11 @@ int main(int const argc, char const* const argv[])
 		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 		for (int i = 0; i < image_width; i++)
 		{
-			//Sets red, green and blue values based on the location the pixel is in the image
-			color pixel_color(double(i) / (image_width - 1), double(j) / (image_height - 1), 0.25);
+			//Sets red, green and blue values based on the location the pixel is in the image and direction of the ray
+			double u = double(i) / (image_width - 1);
+			double v = double(j) / (image_height - 1);
+			ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
+			color pixel_color = ray_color(r);
 			write_color(std::cout, pixel_color);
 		}
 	}
@@ -107,5 +116,5 @@ int main(int const argc, char const* const argv[])
 	std::cerr << "\nDone.\n";
 
 	//printf("\n\n");
-	//system("pause");
+	system("pause");
 }
