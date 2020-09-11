@@ -6,7 +6,8 @@
 	Modified because: Inlcuding code from Peter Shirley's Ray Tracing in One Weekend: https://raytracing.github.io/books/RayTracingInOneWeekend.html
 */
 
-//The following lines (10 to 40) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+//The following lines (11 to 41) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+//Added comments explaining code.
 #ifndef RAY_H
 #define RAY_H
 

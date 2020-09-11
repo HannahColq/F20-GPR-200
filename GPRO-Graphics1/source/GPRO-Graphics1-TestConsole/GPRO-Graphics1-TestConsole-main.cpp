@@ -1,12 +1,9 @@
 /*
    Copyright 2020 Daniel S. Buckstein
-
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
+	   http://www.apache.org/licenses/LICENSE-2.0
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +14,6 @@
 /*
 	GPRO-Graphics1-TestConsole-main.c/.cpp
 	Main entry point source file for a Windows console application.
-
 	Modified by: Hannah Colquhoun
 	Modified because: Inlcuding code from Peter Shirley's Ray Tracing in One Weekend: https://raytracing.github.io/books/RayTracingInOneWeekend.html
 */
@@ -48,7 +44,6 @@ void testVector()
 	vec3add(dv, bv);								// d += b			-> d = (4 + 1, 5 + 2, 6 + 3) = (5, 7, 9)
 	vec3sum(dv, bv, bv);							// d = b + b		-> d = (1 + 1, 2 + 2, 3 + 3) = (2, 4, 6)
 	vec3add(vec3sum(dv, cv, bv), av);				// d = c + b + a	-> d = (4 + 1 + 4, 5 + 2 + 5, 6 + 3 + 6) = (9, 12, 15)
-
 #ifdef __cplusplus
 	// test all constructors and operators
 	vec3 a, b(1.0f, 2.0f, 3.0f), c(cv), d(c);		// default; init; copy array; copy
@@ -58,7 +53,6 @@ void testVector()
 	d = c + b + a;									// sum, init, sum, init, assign	-> d = (9, 12, 15)
 #endif	// __cplusplus
 }
-
 //Courtesy of Daniel Buckstein
 #ifdef __cplusplus
 //C++ file io includes
@@ -69,28 +63,8 @@ void testVector()
 #endif // #__cplusplus
 */
 
-//The following lines (71 to 87) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
-//Removed all instances of auto.
-/*double hit_sphere(const point3& center, double radius, const ray& r)
-{
-	//calculates whether the ray hit the sphere and returns value based on how it hit it if it did
-	vec3 oc = r.origin() - center;
-	double a = r.direction().length_squared();
-	double half_b = dot(oc, r.direction());
-	double c = oc.length_squared() - radius * radius;
-	double discriminant = half_b * half_b - a * c;
-	if (discriminant < 0)
-	{
-		return -1.0;
-	}
-	else
-	{
-		return (-half_b - sqrt(discriminant)) / a;
-	}
-}*/
-
-//The following lines (91 to 104) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
-//Removed all instances of auto.
+//The following lines (68 to 80) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+//Removed all instances of auto. Added comments explaining code.
 color ray_color(const ray& r, const hittable& world)
 {
 	//if ray hits sphere return different, specific color based on where it hit
@@ -106,10 +80,10 @@ color ray_color(const ray& r, const hittable& world)
 }
 
 int main(int const argc, char const* const argv[])
-{	
-	//The following lines (111 to 143) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
-	//Removed all instances of auto.
-	
+{
+	//The following lines (87 to 128) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+	//Removed all instances of auto. Added comments explaining code.
+
 	//Set Image width and height using aspect ratio
 	const double aspect_ratio = 16.0 / 9.0;
 	const int image_width = 400;
@@ -138,13 +112,11 @@ int main(int const argc, char const* const argv[])
 		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 		for (int i = 0; i < image_width; i++)
 		{
-			std::cerr << "inside loop" << i << '\n';
 			//Sets red, green and blue values based on the location the pixel is in the image and direction of the ray
 			double u = double(i) / (image_width - 1);
 			double v = double(j) / (image_height - 1);
 			ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
 			color pixel_color = ray_color(r, world);
-			std::cerr << "test2\n";
 			write_color(std::cout, pixel_color);
 		}
 	}
