@@ -27,9 +27,12 @@
 #include <stdlib.h>
 #include <iostream>
 
+#include "gpro/rtweekend.h"
 #include "gpro/color.h"
-#include "gpro/vec3.h"
-#include "gpro/ray.h"
+#include "gpro/hittable_list.h"
+#include "gpro/sphere.h"
+#include "gpro/hittable.h"
+
 
 //#include "gpro/gpro-math/gproVector.h"
 /*
@@ -66,27 +69,35 @@ void testVector()
 #endif // #__cplusplus
 */
 
-//The following lines (71 to 80) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+//The following lines (71 to 87) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
 //Removed all instances of auto.
-bool hit_sphere(const point3& center, double radius, const ray& r)
+/*double hit_sphere(const point3& center, double radius, const ray& r)
 {
-	//calculates image location and returns true ray hit the sphere
+	//calculates whether the ray hit the sphere and returns value based on how it hit it if it did
 	vec3 oc = r.origin() - center;
-	double a = dot(r.direction(), r.direction());
-	double b = 2.0 * dot(oc, r.direction());
-	double c = dot(oc, oc) - radius * radius;
-	double discriminant = b * b - 4 * a * c;
-	return (discriminant > 0);
-}
-
-//The following lines (84 to 95) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
-//Removed all instances of auto.
-color ray_color(const ray& r)
-{
-	//if ray hits sphere return different, specific color
-	if (hit_sphere(point3(0, 0, -1), 0.5, r))
+	double a = r.direction().length_squared();
+	double half_b = dot(oc, r.direction());
+	double c = oc.length_squared() - radius * radius;
+	double discriminant = half_b * half_b - a * c;
+	if (discriminant < 0)
 	{
-		return color(0.5, 0, 0.75);
+		return -1.0;
+	}
+	else
+	{
+		return (-half_b - sqrt(discriminant)) / a;
+	}
+}*/
+
+//The following lines (91 to 104) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+//Removed all instances of auto.
+color ray_color(const ray& r, const hittable& world)
+{
+	//if ray hits sphere return different, specific color based on where it hit
+	hit_record rec;
+	if (world.hit(r, 0, infinity, rec))
+	{
+		return 0.5 * (rec.normal + color(1, 1, 1));
 	}
 	vec3 unit_direction = unit_vector(r.direction());
 	double t = 0.5 * (unit_direction.y() + 1.0);
@@ -96,13 +107,18 @@ color ray_color(const ray& r)
 
 int main(int const argc, char const* const argv[])
 {	
-	//The following lines (84 to 116) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+	//The following lines (111 to 143) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
 	//Removed all instances of auto.
 	
 	//Set Image width and height using aspect ratio
 	const double aspect_ratio = 16.0 / 9.0;
 	const int image_width = 400;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
+
+	//Create world
+	hittable_list world;
+	world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
+	world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
 	//Set up camera view
 	double viewport_height = 2.0;
@@ -122,11 +138,13 @@ int main(int const argc, char const* const argv[])
 		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 		for (int i = 0; i < image_width; i++)
 		{
+			std::cerr << "inside loop" << i << '\n';
 			//Sets red, green and blue values based on the location the pixel is in the image and direction of the ray
 			double u = double(i) / (image_width - 1);
 			double v = double(j) / (image_height - 1);
 			ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
-			color pixel_color = ray_color(r);
+			color pixel_color = ray_color(r, world);
+			std::cerr << "test2\n";
 			write_color(std::cout, pixel_color);
 		}
 	}
