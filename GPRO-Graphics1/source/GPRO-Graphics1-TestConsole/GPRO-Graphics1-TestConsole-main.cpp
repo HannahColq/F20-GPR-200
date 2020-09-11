@@ -66,13 +66,31 @@ void testVector()
 #endif // #__cplusplus
 */
 
-//The following lines (71 to 77) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+//The following lines (71 to 80) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+//Removed all instances of auto.
+bool hit_sphere(const point3& center, double radius, const ray& r)
+{
+	//calculates image location and returns true ray hit the sphere
+	vec3 oc = r.origin() - center;
+	double a = dot(r.direction(), r.direction());
+	double b = 2.0 * dot(oc, r.direction());
+	double c = dot(oc, oc) - radius * radius;
+	double discriminant = b * b - 4 * a * c;
+	return (discriminant > 0);
+}
+
+//The following lines (84 to 95) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
 //Removed all instances of auto.
 color ray_color(const ray& r)
 {
+	//if ray hits sphere return different, specific color
+	if (hit_sphere(point3(0, 0, -1), 0.5, r))
+	{
+		return color(0.5, 0, 0.75);
+	}
 	vec3 unit_direction = unit_vector(r.direction());
 	double t = 0.5 * (unit_direction.y() + 1.0);
-	//return color based on ray location?
+	//ray didn't hit sphere therefore return color based on ray location
 	return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(1.0, 0.7, 0.5);
 }
 
