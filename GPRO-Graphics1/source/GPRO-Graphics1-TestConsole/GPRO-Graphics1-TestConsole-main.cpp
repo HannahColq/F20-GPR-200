@@ -18,18 +18,19 @@
 	GPRO-Graphics1-TestConsole-main.c/.cpp
 	Main entry point source file for a Windows console application.
 
-	Modified by: ____________
-	Modified because: ____________
+	Modified by: Hannah Colquhoun
+	Modified because: Inlcuding code from Peter Shirley's Ray Tracing in One Weekend: https://raytracing.github.io/books/RayTracingInOneWeekend.html
 */
 
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 
 #include "gpro/gpro-math/gproVector.h"
 
-
+//Courtesy of Daniel Buckstein
 void testVector()
 {
 	// test array vector initializers and functions
@@ -52,11 +53,65 @@ void testVector()
 #endif	// __cplusplus
 }
 
+//Courtesy of Daniel Buckstein
+#ifdef __cplusplus
+//C++ file io includes
+#include <fstream>
+#include <string>
+#else  // !__cplusplus
+// C file io includes
+#endif // #__cplusplus
 
 int main(int const argc, char const* const argv[])
 {
+	/*
 	testVector();
 
-	printf("\n\n");
+#ifdef __cplusplus
+	//opening and writing to a file in C++
+	std::ofstream file("firstimage.ppm");	//Open file for writing
+	std::string test = "hello";			//create a string
+	file << test << std::endl;			//output string (and newline)
+	file.close();						//done, close file
+#else  // !__cplusplus
+	// C file io includes
+#endif // #__cplusplus
+*/
+	//Open file for writing
+	std::ofstream file("firstimage.ppm");
+	
+	//The following lines (86 to 113) are courtesy of Peter Shirley from his book Ray Tracing in One Weekend https://raytracing.github.io/books/RayTracingInOneWeekend.html
+	//Altered to print directly to file instead of cout. Removed all instances of auto.
+	
+	//Set Image width and height
+	const int image_width = 256;
+	const int image_height = 256;
+
+	//Render Image
+	file << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+
+	//Sets color of each pixel from left to right, top to bottom based on location
+	for (int j = image_height - 1; j >= 0; j--)
+	{
+		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+		for (int i = 0; i < image_width; i++)
+		{
+			//Sets red, green and blue values based on the location the pixel is in the image
+			double r = double(i) / (image_width - 1);
+			double g = double(j) / (image_height - 1);
+			double b = 0.25;
+
+			int ir = static_cast<int>(255.999 * r);
+			int ig = static_cast<int>(255.999 * g);
+			int ib = static_cast<int>(255.999 * b);
+
+			//prints rgb values to file
+			file << ir << ' ' << ig << ' ' << ib << "\n";
+		}
+	}
+
+	std::cerr << "\nDone.\n";
+
+	//printf("\n\n");
 	system("pause");
 }
