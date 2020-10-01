@@ -131,6 +131,7 @@ vec4 calcColor(in vec4 rayDirection, in vec4 rayOrigin)
     	vec3 position = sphere.center.xyz + vec3(dp.x, dp.y, sqrt(dp.z));
     	vec3 normal = (position - sphere.center.xyz) / sphere.radius;
     
+        
         //Lambertian Reflectance
    		//Values used for diffuse coefficient, attenuation
         //Light normal vector
@@ -169,7 +170,22 @@ vec4 calcColor(in vec4 rayDirection, in vec4 rayOrigin)
         vec3 globalAmbColor = vec3(0.0, 0.0, 0.25);
         vec3 specColor = vec3(1.0);
         vec3 phColor = globalAmbient * globalAmbColor + (diffuseIntensity * (normal * 0.5 + 0.5) + specularIntensity * specColor) * light.color;
-        return vec4(phColor, 1.0);
+        //return vec4(phColor, 1.0);
+        
+        
+        //Blinn Phong Reflectance
+        //Halfway vector
+        vec3 halfVec = normalize(lightNormal + viewVec);
+        //Blinn Specular Coefficient
+        float bpSpecCoeff = max(0.0, dot(normal, halfVec));
+        //Blinn exponent based off the one used in phong
+        float blinnExp = 4.0 * hlExponent;
+        //Blinn Phong Specular Intensity
+        float bpSpecInt = pow(bpSpecCoeff, blinnExp);
+        
+        //Final Color
+        vec3 bpColor = globalAmbient * globalAmbColor + (diffuseIntensity * (normal * 0.5 + 0.5) + bpSpecInt * specColor) * light.color;
+        return vec4(bpColor, 1.0);
     }
       
 	// BACKGROUND
