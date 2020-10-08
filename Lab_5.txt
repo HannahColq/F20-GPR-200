@@ -220,11 +220,6 @@ color4 calcColor(in sViewport vp, in sRay ray)
     //return vec4(0.0, 0.0, 1.0, 1.0);
     //return vec4(normalize(vec3(vp.viewportPoint.xy, 1.0)), 1.0);
     
-    // cube map
-    // sampler type: 'samplerCube'
-    //vec3 cubeLoc = ray.direction.xyz;
-    //return texture(iChannel1, cubeLoc);
-    
     // Texture set up
     vec4 texture1 = texture(iChannel0, loc);
     vec4 texture2 = texture(iChannel1, loc);
@@ -234,7 +229,38 @@ color4 calcColor(in sViewport vp, in sRay ray)
     
     // Distortion
     vec2 uvNew = distort(loc);
-    return texture(iChannel0, uvNew);
+    //return texture(iChannel0, uvNew);
+    
+    // Shading -- Not Working
+    /*
+    //Set up
+    vec3 surfacePos = vec3(px.x, px.y, -4.0);
+    vec3 normal = normalize(vec3(px.xy, 1.0));
+    vec3 lightPos = vec3(3.0, 2.0, 5.0);
+    float lightIntensity = 10.0;
+    
+    vec3 lightNormal = normalize(surfacePos - lightPos);
+    //Distance from light to surface
+  	float lightDist = distance(lightNormal, surfacePos);
+    //Diffuse Coefficient
+   	float diffuseCoeff = max(0.0, dot(normal, lightNormal));
+   	//Attenuation
+    float attenuation = 1.0 / (1.0 + (lightDist / lightIntensity) + ((lightDist * lightDist) / (lightIntensity * lightIntensity)));
+    //Diffuse Intensity
+    float diffuseIntensity = diffuseCoeff * attenuation;
+    
+   	//Final Color
+   	vec4 color = diffuseIntensity * texture(iChannel1, loc) * vec4(1.0);
+    return vec4(color);
+	*/
+    
+    //Cube Map Code from Class
+    // sampler type: 'samplerCube'
+    vec3 cubeLoc = ray.direction.xyz;
+    //return texture(iChannel1, cubeLoc);
+    
+    // Cube Map
+    
 }
 
 
