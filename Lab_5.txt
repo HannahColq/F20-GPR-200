@@ -177,6 +177,14 @@ vec4 crossFade(in vec4 tex1, in vec4 tex2)
     return mix(tex1, tex2, val);
 }
 
+// Distortion Function
+vec2 distort(in vec2 loc)
+{
+    // Distort the y value of location into a sin wave
+    loc.y += 0.1 * sin(10.0 * loc.x + iTime);
+    return loc;
+}
+
 // calcColor: calculate the color of current pixel
 //	  vp:  input viewport info
 //	  ray: input ray info
@@ -222,7 +230,11 @@ color4 calcColor(in sViewport vp, in sRay ray)
     vec4 texture2 = texture(iChannel1, loc);
     
     // Crossfade
-    return crossFade(texture1, texture2);
+    //return crossFade(texture1, texture2);
+    
+    // Distortion
+    vec2 uvNew = distort(loc);
+    return texture(iChannel0, uvNew);
 }
 
 
