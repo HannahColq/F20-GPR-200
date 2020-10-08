@@ -1,5 +1,7 @@
 // GLSL STARTER CODE BY DANIEL S. BUCKSTEIN
 
+//Rest of the Code by Hannah Coluqhoun
+
 //------------------------------------------------------------
 // TYPE ALIASES & UTILITY FUNCTIONS
 
@@ -188,6 +190,7 @@ vec2 distort(in vec2 loc)
 // Cube Map Rotation
 vec3 rotate(in vec3 cubeLoc)
 {
+    //Alter x value based on time. 3.0 affects how far to the left and right the cubemap is rotated.
     cubeLoc.x += 3.0 * sin(iTime);
     return cubeLoc;
 }
@@ -195,6 +198,7 @@ vec3 rotate(in vec3 cubeLoc)
 // Cube Map Rotation and Distortion
 vec3 rotateDistort(in vec3 cubeLoc)
 {
+    // Explanation for code in above two functions.
     cubeLoc.x += 3.0 * sin(iTime);
     cubeLoc.y += 0.1 * sin(10.0 * cubeLoc.x + iTime);
     return cubeLoc;
@@ -233,6 +237,7 @@ color4 calcColor(in sViewport vp, in sRay ray)
     //return crossFade(texture1, texture2);
     
     // Distortion
+    //vec2 for used for displaying distorted texture.
     vec2 uvNew = distort(loc);
     //return texture(iChannel0, uvNew);
     
