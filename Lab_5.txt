@@ -185,21 +185,26 @@ vec2 distort(in vec2 loc)
     return loc;
 }
 
+// Cube Map Rotation
+vec3 rotate(in vec3 cubeLoc)
+{
+    cubeLoc.x += 3.0 * sin(iTime);
+    return cubeLoc;
+}
+
+// Cube Map Rotation and Distortion
+vec3 rotateDistort(in vec3 cubeLoc)
+{
+    cubeLoc.x += 3.0 * sin(iTime);
+    cubeLoc.y += 0.1 * sin(10.0 * cubeLoc.x + iTime);
+    return cubeLoc;
+}
+
 // calcColor: calculate the color of current pixel
 //	  vp:  input viewport info
 //	  ray: input ray info
 color4 calcColor(in sViewport vp, in sRay ray)
-{
-    // test inputs
-    //return color4(ray.direction.xyz == vp.viewportPoint.xyz); // pass
-    //return color4(lengthSq(vp.viewportPoint.xy) >= 0.25); // pass
-    //return color4(vp.uv, 0.0, 0.0);
-    //return color4(vp.ndc, 0.0, 0.0);
-    //return vp.viewportPoint;
-    
-    // const color
-    // return vec4(1.0, 0.5, 0.0, 1.0);
-    
+{    
     // Code From Class
     //texture (fullscreen)
     //sampler2D tex = iChannel0; -- Texture itself is a sampler
@@ -219,12 +224,12 @@ color4 calcColor(in sViewport vp, in sRay ray)
     // testing for shading
     //return vec4(0.0, 0.0, 1.0, 1.0);
     //return vec4(normalize(vec3(vp.viewportPoint.xy, 1.0)), 1.0);
-    
+        
+    // Crossfade
     // Texture set up
     vec4 texture1 = texture(iChannel0, loc);
     vec4 texture2 = texture(iChannel1, loc);
     
-    // Crossfade
     //return crossFade(texture1, texture2);
     
     // Distortion
@@ -257,10 +262,18 @@ color4 calcColor(in sViewport vp, in sRay ray)
     //Cube Map Code from Class
     // sampler type: 'samplerCube'
     vec3 cubeLoc = ray.direction.xyz;
-    //return texture(iChannel1, cubeLoc);
     
     // Cube Map
+    // Cube Map using Ray Direction
+    //return texture(iChannel2, cubeLoc);
     
+    //Cube Map Rotating
+    vec3 cubeLocRot = rotate(cubeLoc);
+    //return texture(iChannel2, cubeLocRot);
+    
+    //Cube Map Rotating with Distortion
+    vec3 cLocDist = rotateDistort(cubeLoc);
+    return texture(iChannel2, cLocDist);
 }
 
 
