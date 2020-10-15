@@ -3,6 +3,8 @@
 
 //Rendering Functions For Gaussian Blur
 
+//Used http://rastergrid.com/blog/2010/09/efficient-gaussian-blur-with-linear-sampling/ to try to figure this out
+
 //Blur Function
 color4 calcColor(in vec2 uv, in vec2 fragCoord)
 {
