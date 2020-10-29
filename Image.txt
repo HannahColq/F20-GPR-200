@@ -1,6 +1,4 @@
-//Some base code used was created by Daniel S. Buckstein
-
-
+//Some code based on code provided previously by Daniel Buckstein
 
 void mainImage(out color4 fragColor, in sCoord fragCoord)
 {

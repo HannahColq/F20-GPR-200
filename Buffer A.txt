@@ -1,4 +1,4 @@
-//Some base code used was created by Daniel S. Buckstein
+//Some code based on code provided previously by Daniel Buckstein
 
 //rotate
 vec3 rotation(in vec3 cubeLoc)
