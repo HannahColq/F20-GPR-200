@@ -49,6 +49,8 @@ sVector asVector(in sBasis v)
 }
 
 
+// GLSL STARTER CODE BY DANIEL S. BUCKSTEIN
+
 // lengthSq: calculate the squared length of a vector type
 //    x: input whose squared length to calculate
 sScalar lengthSq(sScalar x)
