@@ -1,42 +1,21 @@
-// GLSL STARTER CODE BY DANIEL S. BUCKSTEIN
-//  -> BUFFER A TAB (scene)
-
-//------------------------------------------------------------
-// RENDERING FUNCTIONS
+//Some base code used was created by Daniel S. Buckstein
 
 //rotate
 vec3 rotation(in vec3 cubeLoc)
 {
-    cubeLoc.x += sin(iTime);
+    float x = iTime;
+    mat3 matrix = mat3(cos(x), 0.0, -sin(x), 0.0, 1.0, 0.0, sin(x), 0.0, cos(x));
+    cubeLoc *= matrix;    
     return cubeLoc;
 }
 
-// calcColor: calculate the color of current pixel
-//	  vp:  input viewport info
-//	  ray: input ray info
 color4 calcColor(in sViewport vp, in sRay ray)
-{
-    // test inputs
-    //return color4(ray.direction.xyz == vp.viewportPoint.xyz); // pass
-    //return color4(lengthSq(vp.viewportPoint.xy) >= 0.25); // pass
-    //return color4(vp.uv, 0.0, 0.0);
-    //return color4(vp.ndc, 0.0, 0.0);
-    //return asPoint(sBasis(vp.viewportPoint.xy, -vp.viewportPoint.z));
-    
-     //Cube Location
-    vec3 cubeLoc = ray.direction.xyz;
-	vec3 cubeLocN = rotation(cubeLoc);
-    // Cube Map using Ray Direction
-    return texture(iChannel0, cubeLocN);
+{   
+    //Cube Location
+    vec3 cubeLoc = rotation(ray.direction.xyz);
+    return texture(iChannel0, cubeLoc);
 }
 
-
-//------------------------------------------------------------
-// SHADERTOY MAIN
-
-// mainImage: process the current pixel (exactly one call per pixel)
-//    fragColor: output final color for current pixel
-//    fragCoord: input location of current pixel in image (in pixels)
 void mainImage(out color4 fragColor, in sCoord fragCoord)
 {
     // viewing plane (viewport) inputs
