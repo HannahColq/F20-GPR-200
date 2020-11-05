@@ -1,5 +1,8 @@
 #version 300 es
 
+//I had a lot of trouble with this lab and several outside factors prevented me from
+//starting soon enough to actually realize I needed help and get that help.
+
 // STARTING CODE FROM CLASS BY DANIEL BUCKSTEIN
 
 //MAIN DUTY: PROCESS ATTRIBUTES
@@ -105,5 +108,58 @@ void main()
 	
 	//Start of Code for lab
 	
+    //Create a light and initialize values
+    pointLight light;
+    initLight(light, vec4(-2.0, -3.0, -6.0, 0.0), vec3(1.0, 1.0, 1.0), 10.0);
 	
+	//position in world-space (wrong)
+	//vec4 pos_world = uModelMat * aPosition;
+	//gl_Position = pos_world;
+	
+	//position in camera-space (also wrong)
+	//vec4 pos_camera = uViewMat * uModelMat * aPosition;
+	//vec4 pos_camera = uViewMat * pos_world;
+	//gl_Position = pos_camera;
+	
+	/*Phong Reflectance: Per-Vertex in view-space
+    vec3 dp;
+    dp.xy = rayDirection.xy - sphere.center.xy;
+    float lSq = lenSq(dp.xy), rSq = sphere.radius * sphere.radius;
+       
+    vec3 normal = (position - sphere.center.xyz) / sphere.radius;
+   	
+	//Values used for diffuse coefficient, attenuation
+	//Light normal vector
+	vec3 lightNormal = normalize(position - light.center.xyz);
+	//Distance from light to surface
+	float lightDist = distance(lightNormal, position);
+	//Diffuse Coefficient
+	float diffuseCoeff = max(0.0, dot(normal, lightNormal));
+	//return vec4(diffuseCoeff, diffuseCoeff, diffuseCoeff, 1.0);
+	//Attenuation
+	float attenuation = 1.0 / (1.0 + (lightDist / light.intensity) + ((lightDist * lightDist) / (light.intensity * light.intensity)));
+	//Diffuse Intensity
+	float diffuseIntensity = diffuseCoeff * attenuation;
+  
+	//Values used for specular coefficient
+	//View vector normal
+	vec3 viewVec = normalize(rayOrigin.xyz - position);
+	//Reflected light vector
+	vec3 refLight = reflect(-lightNormal, normal);
+	//Specular Coefficient
+	float specCoeff = max(0.0, dot(viewVec, refLight));
+	//return vec4(specCoeff, specCoeff, specCoeff, 1.0);
+	//Highlight Exponent
+	float hlExponent = 8.0;
+	//Specular Intensity
+	float specularIntensity = pow(specCoeff, hlExponent);
+       	
+	//Final Color
+	float globalAmbient = 0.5;
+	vec3 globalAmbColor = vec3(0.0, 0.0, 0.25);
+	//Specular Reflection Color
+	vec3 specColor = vec3(1.0);
+	vec3 phColor = globalAmbient * globalAmbColor + (diffuseIntensity * (normal * 0.5 + 0.5) + specularIntensity * specColor) * light.color;
+	//return vec4(phColor, 1.0);
+	*/
 }
