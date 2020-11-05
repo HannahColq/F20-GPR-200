@@ -1,0 +1,38 @@
+#version 300 es
+
+// STARTING CODE FROM CLASS BY DANIEL BUCKSTEIN
+
+#ifdef GL_ES
+precision highp float;
+#endif // GL_ES
+
+layout(location = 0) out vec4 rtFragColor;
+//out vec4 rtFragColor;
+
+// VARYINGS
+// PER-VERTEX: recieve the final color
+//in vec4 vColor;
+
+// PER-FRAGEMENT: receive stuff used for the final color
+in vec4 vNormal;
+
+//in vec2 vTexcoord;
+in vec4 vTexcoord;
+
+//gets final color from vertex shader
+in vec4 vColor;
+
+void main()
+{
+	//rtFragColor = vec4(0.5, 0.0, 0.25, 1.0);
+	
+	// PER-VERTEX: input is just final color
+	//rtFragColor = vColor;
+	
+	// PER-FRAGMENT: calculate final color here using inputs
+	vec4 N = normalize(vNormal);
+	rtFragColor = vec4(N.xyz * 0.5 + 0.5, 1.0);
+	
+	//rtFragColor = vec4(vTexcoord, 0.0, 1.0);
+	rtFragColor = vec4(vTexcoord);
+}
